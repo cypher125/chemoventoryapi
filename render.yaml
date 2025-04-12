@@ -10,7 +10,7 @@ services:
     name: chemoventry
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn chemoventry.asgi:application -k uvicorn.workers.UvicornWorker"
+    startCommand: "python -m gunicorn chemoventry.wsgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
