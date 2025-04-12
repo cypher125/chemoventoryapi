@@ -1,0 +1,69 @@
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from django.http import HttpResponseRedirect
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def generate_single_report(request, report_type):
+    """
+    Simple unified endpoint for generating all types of reports.
+    Parameters:
+    - report_type: inventory, usage, or expiry
+    - format: 'pdf' or 'excel' (default: pdf)
+    - start_date: Start date for report range (YYYY-MM-DD)
+    - end_date: End date for report range (YYYY-MM-DD)
+    """
+    # Get parameters
+    params = request.query_params.copy()
+    
+    # Convert report_type to the corresponding endpoint
+    if report_type == 'inventory':
+        endpoint = '/api/reports/inventory/'
+    elif report_type == 'usage':
+        endpoint = '/api/reports/usage/'
+    elif report_type == 'expiry':
+        endpoint = '/api/reports/expiry/'
+    elif report_type == 'low-stock':
+        endpoint = '/api/reports/low-stock/'
+    else:
+        return Response({"error": f"Invalid report type: {report_type}. Must be one of: inventory, usage, expiry, low-stock"}, status=400)
+    
+    # Build the query string
+    query_string = '&'.join([f"{key}={value}" for key, value in params.items()])
+    if query_string:
+        redirect_url = f"{endpoint}?{query_string}"
+    else:
+        redirect_url = endpoint
+    
+    return HttpResponseRedirect(redirect_url)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def simple_report(request, report_type):
+    """
+    Simple unified endpoint for generating all types of reports.
+    """
+    # Get parameters
+    params = request.query_params.copy()
+    
+    # Convert report_type to the corresponding endpoint
+    if report_type == 'inventory':
+        endpoint = '/api/reports/inventory/'
+    elif report_type == 'usage':
+        endpoint = '/api/reports/usage/'
+    elif report_type == 'expiry':
+        endpoint = '/api/reports/expiry/'
+    elif report_type == 'low-stock':
+        endpoint = '/api/reports/low-stock/'
+    else:
+        return Response({"error": f"Invalid report type: {report_type}. Must be one of: inventory, usage, expiry, low-stock"}, status=400)
+    
+    # Build the query string
+    query_string = '&'.join([f"{key}={value}" for key, value in params.items()])
+    if query_string:
+        redirect_url = f"{endpoint}?{query_string}"
+    else:
+        redirect_url = endpoint
+    
+    return HttpResponseRedirect(redirect_url) 

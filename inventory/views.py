@@ -444,15 +444,15 @@ def generate_single_report(request, report_type):
     params = request.query_params.copy()
     
     # Convert report_type to the corresponding endpoint
-        if report_type == 'inventory':
+    if report_type == 'inventory':
         endpoint = '/api/reports/inventory/'
-        elif report_type == 'usage':
+    elif report_type == 'usage':
         endpoint = '/api/reports/usage/'
-        elif report_type == 'expiry':
+    elif report_type == 'expiry':
         endpoint = '/api/reports/expiry/'
     elif report_type == 'low-stock':
         endpoint = '/api/reports/low-stock/'
-        else:
+    else:
         return Response({"error": f"Invalid report type: {report_type}. Must be one of: inventory, usage, expiry, low-stock"}, status=400)
     
     # Build the query string
@@ -476,11 +476,11 @@ def simple_report(request, report_type):
     params = request.query_params.copy()
     
     # Convert report_type to the corresponding endpoint
-        if report_type == 'inventory':
+    if report_type == 'inventory':
         endpoint = '/api/reports/inventory/'
-        elif report_type == 'usage':
+    elif report_type == 'usage':
         endpoint = '/api/reports/usage/'
-        elif report_type == 'expiry':
+    elif report_type == 'expiry':
         endpoint = '/api/reports/expiry/'
     elif report_type == 'low-stock':
         endpoint = '/api/reports/low-stock/'
@@ -491,7 +491,7 @@ def simple_report(request, report_type):
     query_string = '&'.join([f"{key}={value}" for key, value in params.items()])
     if query_string:
         redirect_url = f"{endpoint}?{query_string}"
-        else:
+    else:
         redirect_url = endpoint
     
     return HttpResponseRedirect(redirect_url)
